@@ -6,7 +6,7 @@
           [src]="'assets/icons/'+ product.item.id + '.svg'"
           [alt]="product.item.name"
         />
-        <p>{{product.item.name}}</p>
+        <p class="cart--item-name">{{product.item.name}}</p>
         <button class="quantity-btn remove-btn center" (click)="removeItemFromCart(product.item.id)">-</button>
         <span class="quantity-text center">{{product.quantity}}</span>
         <button class="quantity-btn add-btn center" (click)="addItemToCart(product.item)">+</button>

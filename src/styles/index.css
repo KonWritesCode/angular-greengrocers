@@ -52,6 +52,11 @@ body {
     width: 100px;
     height: 100px;
   }
+  .cart--item-name {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin: 0;
+  }
   
   @media only screen and (max-width: 600px) {
     .store--item-list {

@@ -9,6 +9,9 @@ export class CartService {
   private cartItemsSubject: BehaviorSubject<CartItem[]> = new BehaviorSubject<CartItem[]>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
+  private cartTotalSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  cartTotal$ = this.cartTotalSubject.asObservable();
+
   constructor() { }
 
   addToCart(item: Item, quantity: number = 1): void {
@@ -25,16 +28,23 @@ export class CartService {
     } else {
       this.cartItemsSubject.next([...currentCartItems, {item: item, quantity: 1}]);
     }
+
+    this.updateTotal()
+  }
+
+  updateTotal(): number {
+    let totalSum: number = 0
+
+    this.cartItemsSubject.getValue().forEach(cartItem => {
+      totalSum += cartItem.quantity * cartItem.item.price;
+
+    });
+    this.cartTotalSubject.next(totalSum);
+    return totalSum;
   }
 
   getCartItems(): CartItem[] {
-    let items: CartItem[] = [];
-    this.cartItemsSubject.getValue().forEach(item => {
-      items.push(item)
-    });
-    console.log(items)
-
-    return items;
+    return [...this.cartItemsSubject.getValue()];
   }
 
   removeItemFromCart(id: string, quantity: number = 1): void {
@@ -49,5 +59,7 @@ export class CartService {
       currentCartItems.splice(itemIndex, 1);
       this.cartItemsSubject.next([...currentCartItems]);
     }
+    
+    this.updateTotal()
   }
 }
